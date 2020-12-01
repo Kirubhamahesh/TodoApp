@@ -1,0 +1,57 @@
+
+<div class="todo-block">
+    <div class="content-block"> 
+
+       <div class="todo-heading">
+        <h1>Todos</h1>
+       </div>
+
+        <div class="input-container">
+            <i *ngIf="TodoList.length" class="material-icons icon" (click)="changeStatusForAllDatas()">
+                keyboard_arrow_down
+            </i>
+        <input 
+        class="search-input"
+        (keydown.enter)="addtodo($event.target.value)"
+        [(ngModel)]="searchText" required>
+        </div>
+    
+     <div *ngIf="arrowmode">       
+       <div *ngIf="allmode">
+         <div  *ngFor="let item of TodoList; let i = index">
+         <div  class="todo-list-block">
+         <input type="checkbox" id=i [(ngModel)]=item.status (click)="selectedtodo(i,item.value)" style="width:20px;height:20px; border-radius: 50%;">
+         <span class="todo-text" [ngClass]="{'todoDynamicClass': item.status==true  ? 'line-through': null}">   {{ item.value }}  </span>
+         <span class="alert-icon"  (click)="cleardata(item)" >&times; </span>
+        </div>
+    </div>
+    </div>
+ <div *ngIf="activemode">
+    <div  *ngFor="let item of TodoList; let i = index">
+        <div *ngIf="item.status == false" class="todo-list-block">
+         <input type="checkbox" id=i [(ngModel)]=item.status (click)="selectedtodo(i,item.value)" style="width:20px;height:20px;">
+         <span class="todo-text">    {{ item.value }}  </span>
+         <span class="alert-icon"  (click)="cleardata(item)" >&times; </span>
+      </div>
+    </div>
+ </div>
+
+ <div *ngIf="completedmode">
+     <div  *ngFor="let item of TodoList; let i = index">
+        <div *ngIf="item.status == true" class="todo-list-block">
+         <input type="checkbox" id=i [(ngModel)]=item.status (click)="selectedtodo(i,item.value)" style="width:20px;height:20px;">
+         <span class="todo-text" [ngClass]="{'todoDynamicClass': item.status==true  ? 'line-through': null}">   {{ item.value }}  </span>
+         <span class="alert-icon"  (click)="cleardata(item)" >&times; </span>
+     </div>
+    </div>
+ </div>
+</div>
+      
+        <div class="todo-list-bottom" *ngIf="TodoList.length">
+            <span>   {{ itemsLeft }} items left  </span>
+            <button class="todo-btn" [ngClass]="{'btnBorder': allmode}"(click)="displayAllTodos()">All</button>
+            <button class="todo-btn" [ngClass]="{'btnBorder': activemode}" (click)="activetodos()">Active</button>
+            <button class="todo-btn" [ngClass]="{'btnBorder': completedmode}" (click)="completedtodos()">completed</button>
+            <button class="todo-btn" (click)="clearList()" *ngIf="clearBtn">clear completed</button>
+         </div>
+</div>
